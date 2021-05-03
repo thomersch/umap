@@ -45,7 +45,7 @@ L.Map.mergeOptions({
     captionBar: false,
     slideshow: {},
     clickable: true,
-    easing: true
+    easing: true,
 });
 
 L.U.Map.include({
@@ -198,6 +198,8 @@ L.U.Map.include({
         this.slideshow = new L.U.Slideshow(this, this.options.slideshow);
         this.permissions = new L.U.MapPermissions(this, this.options.permissions);
         this.initCaptionBar();
+        if(this.options.showLongCreditOverlay) this.initCreditsOverlay();
+
         if (this.options.allowEdit) {
             this.editTools = new L.U.Editable(this);
             this.ui.on('panel:closed panel:open', function () {
@@ -1353,10 +1355,24 @@ L.U.Map.include({
         var creditsFields = [
             ['options.licence', {handler: 'LicenceChooser', label: L._('licence')}],
             ['options.shortCredit', {handler: 'Input', label: L._('Short credits'), helpEntries: ['shortCredit', 'textFormatting']}],
-            ['options.longCredit', {handler: 'Textarea', label: L._('Long credits'), helpEntries: ['longCredit', 'textFormatting']}]
+            ['options.longCredit', {handler: 'Textarea', label: L._('Long credits'), helpEntries: ['longCredit', 'textFormatting']}],
+            ['options.showLongCreditOverlay', {handler: 'Switch', label: L._('Display long credits as map overlay')}]
         ];
         var creditsBuilder = new L.U.FormBuilder(this, creditsFields, {
-            callback: function () {this._controls.attribution._update();},
+            callback: function () {
+                this._controls.attribution._update();
+                if (this.options.showLongCreditOverlay) {
+                    if (this._creditOverlay === undefined) {
+                        this.initCreditsOverlay();
+                    }
+                    this._creditOverlay.update();
+                } else {
+                    if (this._creditOverlay !== undefined) {
+                        this._creditOverlay.remove();
+                        this._creditOverlay = undefined;
+                    }
+                }
+            },
             callbackContext: this
         });
         credits.appendChild(creditsBuilder.build());
@@ -1431,6 +1447,28 @@ L.U.Map.include({
         this.onceDatalayersLoaded(function () {
             this.slideshow.renderToolbox(container);
         });
+    },
+
+    initCreditsOverlay: function () {
+        var overlayDiv = L.DomUtil.create('div', 'umap-credits-overlay');
+
+        L.Control.CreditOverlay = L.Control.extend({
+            onAdd: function(map) {
+                this.update();
+                return overlayDiv;
+            },
+            onRemove: () => {},
+            update: () => {
+                var creditText = L.Util.toHTML(this.options.longCredit);
+                overlayDiv.innerHTML = creditText;
+            }
+        });
+
+        var creditOverlay = function(opts) {
+            return new L.Control.CreditOverlay(opts);
+        };
+        this._creditOverlay = creditOverlay({ position: 'bottomright' });
+        this._creditOverlay.addTo(this);
     },
 
     initEditBar: function () {
@@ -1685,7 +1723,7 @@ L.U.Map.include({
     },
 
     getFilterKeys: function () {
-        return (this.options.filterKey || this.options.sortKey || 'name').split(',');
+        return (this.options.filterKey || this.options.sortKey || 'name').split(',');
     }
 
 });
