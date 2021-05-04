@@ -1053,6 +1053,7 @@ L.U.Map.include({
         'labelInteractive',
         'shortCredit',
         'longCredit',
+        'showLongCreditOverlay',
         'zoomControl',
         'datalayersControl',
         'searchControl',
