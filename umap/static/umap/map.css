@@ -122,7 +122,10 @@ a.umap-control-text {
     max-width: 20vw;
 }
 
-
+.umap-credits-branding-image {
+    min-width: 100px; 
+    max-width: 10vw;
+}
 
 /* ***************** */
 /*    Search panel   */

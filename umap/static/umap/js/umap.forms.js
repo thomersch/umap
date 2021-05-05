@@ -182,6 +182,23 @@ L.FormBuilder.ColorPicker = L.FormBuilder.Input.extend({
 
 });
 
+L.FormBuilder.Image = L.FormBuilder.Input.extend({
+    type: function () {
+        return 'file';
+    },
+    toJS: function() {
+        var reader = new FileReader();
+        reader.onloadend = () => {
+            this.builder.setter(this.field, reader.result);
+            this.builder.options.callback.call(this.options.callbackContext || this.obj);
+        };
+        reader.readAsDataURL(this.input.files[0]);
+    },
+    fetch: function () {
+        // TODO
+    }
+});
+
 L.FormBuilder.TextColorPicker = L.FormBuilder.ColorPicker.extend({
     colors: [
         'Black', 'DarkSlateGrey', 'DimGrey', 'SlateGrey', 'LightSlateGrey',

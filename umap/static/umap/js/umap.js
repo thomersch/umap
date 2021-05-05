@@ -198,7 +198,7 @@ L.U.Map.include({
         this.slideshow = new L.U.Slideshow(this, this.options.slideshow);
         this.permissions = new L.U.MapPermissions(this, this.options.permissions);
         this.initCaptionBar();
-        if(this.options.showLongCreditOverlay) this.initCreditsOverlay();
+        if(this.options.showLongCreditOverlay || this.options.brandingImage) this.initCreditsOverlay();
 
         if (this.options.allowEdit) {
             this.editTools = new L.U.Editable(this);
@@ -1063,7 +1063,8 @@ L.U.Map.include({
         'embedControl',
         'measureControl',
         'tilelayersControl',
-        'easing'
+        'easing',
+        'brandingImage'
     ],
 
     exportOptions: function () {
@@ -1357,12 +1358,13 @@ L.U.Map.include({
             ['options.licence', {handler: 'LicenceChooser', label: L._('licence')}],
             ['options.shortCredit', {handler: 'Input', label: L._('Short credits'), helpEntries: ['shortCredit', 'textFormatting']}],
             ['options.longCredit', {handler: 'Textarea', label: L._('Long credits'), helpEntries: ['longCredit', 'textFormatting']}],
-            ['options.showLongCreditOverlay', {handler: 'Switch', label: L._('Display long credits as map overlay')}]
+            ['options.showLongCreditOverlay', {handler: 'Switch', label: L._('Display long credits as map overlay')}],
+            ['options.brandingImage', {handler: 'Image', label: L._('Image')}]
         ];
         var creditsBuilder = new L.U.FormBuilder(this, creditsFields, {
             callback: function () {
                 this._controls.attribution._update();
-                if (this.options.showLongCreditOverlay) {
+                if (this.options.showLongCreditOverlay || this.options.brandingImage) {
                     if (this._creditOverlay === undefined) {
                         this.initCreditsOverlay();
                     }
@@ -1452,6 +1454,8 @@ L.U.Map.include({
 
     initCreditsOverlay: function () {
         var overlayDiv = L.DomUtil.create('div', 'umap-credits-overlay');
+        var imageElem = L.DomUtil.add('img', 'umap-credits-branding-image', overlayDiv);
+        var creditDiv = L.DomUtil.add('div', '', overlayDiv);
 
         L.Control.CreditOverlay = L.Control.extend({
             onAdd: function(map) {
@@ -1460,8 +1464,14 @@ L.U.Map.include({
             },
             onRemove: () => {},
             update: () => {
-                var creditText = L.Util.toHTML(this.options.longCredit);
-                overlayDiv.innerHTML = creditText;
+                imageElem.src = this.options.brandingImage;
+
+                if(this.options.showLongCreditOverlay) {
+                    var creditText = L.Util.toHTML(this.options.longCredit);
+                    creditDiv.innerHTML = creditText;
+                } else {
+                    creditDiv.innerHTML = '';
+                }
             }
         });
 
