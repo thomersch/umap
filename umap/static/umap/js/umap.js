@@ -1452,23 +1452,60 @@ L.U.Map.include({
         });
     },
 
-    initCreditsOverlay: function () {
+    initCreditsOverlay: function() {
+        var creditsCollapsed = false;
+
         var overlayDiv = L.DomUtil.create('div', 'umap-credits-overlay');
         var imageElem = L.DomUtil.add('img', 'umap-credits-branding-image', overlayDiv);
+
+        var creditToggleWrapper = L.DomUtil.add('div', '', overlayDiv);
+        var creditHide = L.DomUtil.add('a', 'umap-control-more umap-control-text', creditToggleWrapper);
+        var creditShow = L.DomUtil.add('a', 'umap-control-less umap-control-text', creditToggleWrapper);
         var creditDiv = L.DomUtil.add('div', '', overlayDiv);
 
+        creditHide.href = '#';
+        creditShow.href = '#';
+
         L.Control.CreditOverlay = L.Control.extend({
-            onAdd: function(map) {
+            onAdd: function() {
+                L.DomEvent.on(creditShow, 'click', this.showCredits, this);
+                L.DomEvent.on(creditHide, 'click', this.hideCredits, this);
+
                 this.update();
                 return overlayDiv;
             },
-            onRemove: () => {},
+            showCredits: function() {
+                creditsCollapsed = false;
+                this.update();
+            },
+            hideCredits: function() {
+                creditsCollapsed = true;
+                this.update();
+            },
+            onRemove: () => { },
             update: () => {
                 imageElem.src = this.options.brandingImage;
 
-                if(this.options.showLongCreditOverlay) {
+                if(this.options.brandingImage) {
+                    imageElem.style.display = 'inherit';
+                } else {
+                    imageElem.style.display = 'none';
+                }
+
+                if (this.options.showLongCreditOverlay) {
                     var creditText = L.Util.toHTML(this.options.longCredit);
                     creditDiv.innerHTML = creditText;
+                    if (creditsCollapsed) {
+                        creditShow.style.display = 'inherit';
+                        creditHide.style.display = 'none';
+
+                        creditDiv.style.display = 'none';
+                    } else {
+                        creditHide.style.display = 'inherit';
+                        creditShow.style.display = 'none';
+
+                        creditDiv.style.display = 'inherit';
+                    }
                 } else {
                     creditDiv.innerHTML = '';
                 }
