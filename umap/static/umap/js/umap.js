@@ -1456,6 +1456,7 @@ L.U.Map.include({
         var creditsCollapsed = false;
 
         var overlayDiv = L.DomUtil.create('div', 'umap-credits-overlay');
+        L.DomEvent.on(overlayDiv, 'mousewheel', L.DomEvent.stopPropagation);
         var imageElem = L.DomUtil.add('img', 'umap-credits-branding-image', overlayDiv);
 
         var suppressWrapper = L.DomUtil.add('div', 'umap-map-list-suppress', overlayDiv);

@@ -116,10 +116,12 @@ a.umap-control-text {
 }
 
 .umap-credits-overlay {
-    background-color: rgba(255, 255, 255, 0.5);
-    padding: 1em;
-    overflow: scroll;
+    background-color: rgba(255, 255, 255, 0.7);
+    max-height: 500px;
     max-width: 20vw;
+    overflow: scroll;
+    padding: 1em;
+    pointer-events: auto;
 }
 
 .umap-credits-branding-image {
