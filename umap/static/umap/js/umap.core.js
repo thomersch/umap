@@ -51,10 +51,6 @@ L.Util.toHTML = function (r) {
     // detect newline format
     var newline = r.indexOf('\r\n') != -1 ? '\r\n' : r.indexOf('\n') != -1 ? '\n' : '';
 
-    // Escape tags
-    r = r.replace(/</gm, '&lt;');
-
-
     // headings and hr
     r = r.replace(/^### (.*)/gm, '<h5>$1</h5>');
     r = r.replace(/^## (.*)/gm, '<h4>$1</h4>');
@@ -95,7 +91,7 @@ L.Util.toHTML = function (r) {
     // Preserver line breaks
     if (newline) r = r.replace(new RegExp(newline + '(?=[^]+)', 'g'), '<br>' + newline);
 
-    return r;
+    return filterXSS(r);
 };
 L.Util.isObject = function (what) {
     return typeof what === 'object' && what !== null;

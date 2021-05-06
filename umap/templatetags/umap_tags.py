@@ -1,6 +1,7 @@
 import json
 from copy import copy
 
+import bleach as bl
 from django import template
 from django.conf import settings
 
@@ -8,6 +9,8 @@ from ..models import DataLayer, TileLayer
 from ..views import _urls_for_js
 
 register = template.Library()
+
+ALLOWED_TAGS = bl.sanitizer.ALLOWED_TAGS + ["table", "tr", "td", "th", "tbody"]
 
 
 @register.inclusion_tag('umap/css.html')
@@ -74,6 +77,11 @@ def tilelayer_preview(tilelayer):
 @register.filter
 def notag(s):
     return s.replace('<', '&lt;')
+
+
+@register.filter
+def bleach(s):
+    return bl.clean(s, tags=ALLOWED_TAGS)
 
 
 @register.simple_tag(takes_context=True)

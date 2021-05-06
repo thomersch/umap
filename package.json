@@ -58,6 +58,7 @@
     "osmtogeojson": "^3.0.0-beta.3",
     "togeojson": "0.16.0",
     "togpx": "^0.5.4",
-    "tokml": "0.4.0"
+    "tokml": "0.4.0",
+    "xss": "^1.0.8"
   }
 }
