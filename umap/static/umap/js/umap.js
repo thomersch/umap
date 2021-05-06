@@ -1458,10 +1458,13 @@ L.U.Map.include({
         var overlayDiv = L.DomUtil.create('div', 'umap-credits-overlay');
         var imageElem = L.DomUtil.add('img', 'umap-credits-branding-image', overlayDiv);
 
-        var creditToggleWrapper = L.DomUtil.add('div', '', overlayDiv);
+        var creditWrapper = L.DomUtil.add('div', 'umap-map-list-suppress', overlayDiv);
+
+        var creditToggleWrapper = L.DomUtil.add('div', '', creditWrapper);
         var creditHide = L.DomUtil.add('a', 'umap-control-more umap-control-text', creditToggleWrapper);
         var creditShow = L.DomUtil.add('a', 'umap-control-less umap-control-text', creditToggleWrapper);
-        var creditDiv = L.DomUtil.add('div', '', overlayDiv);
+
+        var creditDiv = L.DomUtil.add('div', '', creditWrapper);
 
         creditHide.href = '#';
         creditShow.href = '#';

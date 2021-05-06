@@ -73,6 +73,9 @@ input:-moz-placeholder, :-moz-placeholder {
 .map_fragment {
     width: 100%;
 }
+.map_fragment .umap-map-list-suppress {
+    display: none;
+}
 .map_list .map_fragment,
 .demo_map .map_fragment {
     height: 210px;
