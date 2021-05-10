@@ -1359,7 +1359,7 @@ L.U.Map.include({
             ['options.shortCredit', {handler: 'Input', label: L._('Short credits'), helpEntries: ['shortCredit', 'textFormatting']}],
             ['options.longCredit', {handler: 'Textarea', label: L._('Long credits'), helpEntries: ['longCredit', 'textFormatting']}],
             ['options.showLongCreditOverlay', {handler: 'Switch', label: L._('Display long credits as map overlay')}],
-            ['options.brandingImage', {handler: 'Image', label: L._('Image')}]
+            ['options.brandingImage', {handler: 'Image', label: L._('Branding Logo')}]
         ];
         var creditsBuilder = new L.U.FormBuilder(this, creditsFields, {
             callback: function () {
