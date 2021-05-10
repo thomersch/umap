@@ -118,7 +118,7 @@ a.umap-control-text {
 .umap-credits-overlay {
     background-color: rgba(255, 255, 255, 0.7);
     max-height: 500px;
-    max-width: 20vw;
+    max-width: 25vw;
     overflow: auto;
     padding: 1em;
     pointer-events: auto;
@@ -126,7 +126,7 @@ a.umap-control-text {
 
 .umap-credits-branding-image {
     min-width: 100px; 
-    max-width: 10vw;
+    max-width: 15vw;
 }
 
 /* ***************** */

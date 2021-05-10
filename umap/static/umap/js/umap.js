@@ -1525,7 +1525,7 @@ L.U.Map.include({
         var creditOverlay = function(opts) {
             return new L.Control.CreditOverlay(opts);
         };
-        this._creditOverlay = creditOverlay({ position: 'bottomright' });
+        this._creditOverlay = creditOverlay({ position: 'topright' });
         this._creditOverlay.addTo(this);
     },
 
