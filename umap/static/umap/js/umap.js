@@ -1466,8 +1466,10 @@ L.U.Map.include({
         var creditWrapper = L.DomUtil.add('div', 'umap-map-list-suppress', suppressWrapper);
 
         var creditToggleWrapper = L.DomUtil.add('div', '', creditWrapper);
-        var creditHide = L.DomUtil.add('a', 'umap-control-more umap-control-text', creditToggleWrapper);
-        var creditShow = L.DomUtil.add('a', 'umap-control-less umap-control-text', creditToggleWrapper);
+        var creditHide = L.DomUtil.add('a', 'umap-control-less umap-control-text', creditToggleWrapper);
+        creditHide.title = L._('Hide');
+        var creditShow = L.DomUtil.add('a', 'umap-control-more umap-control-text', creditToggleWrapper);
+        creditShow.title = L._('Show more information');
 
         var creditDiv = L.DomUtil.add('div', '', creditWrapper);
 
