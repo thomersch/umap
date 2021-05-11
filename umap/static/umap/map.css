@@ -129,6 +129,22 @@ a.umap-control-text {
     max-width: 15vw;
 }
 
+.umap-file-input-container {
+    align-items: baseline;
+    display: flex;
+}
+
+.umap-file-input {
+    flex-grow: 2;
+    margin-right: 1em;
+}
+
+.umap-file-input-reset-button {
+    line-height: 1;
+    min-height: inherit;
+    width: inherit;
+}
+
 /* ***************** */
 /*    Search panel   */
 /* ***************** */

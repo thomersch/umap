@@ -183,8 +183,26 @@ L.FormBuilder.ColorPicker = L.FormBuilder.Input.extend({
 });
 
 L.FormBuilder.Image = L.FormBuilder.Input.extend({
+    build: function () {
+        var container = L.DomUtil.create('div', 'umap-file-input-container', this.parentNode);
+        var input = L.DomUtil.create('input', 'umap-file-input', container);
+        input.type = 'file';
+        L.DomEvent.on(input, 'change', this.sync, this);
+        this.input = input;
+
+        var resetBtn = L.DomUtil.create('button', 'button umap-file-input-reset-button', container);
+        resetBtn.innerHTML = L._('Delete');
+        L.DomEvent
+            .on(resetBtn, 'click', this.reset, this)
+            .on(resetBtn, 'click', L.DomEvent.preventDefault);
+    },
     type: function () {
         return 'file';
+    },
+    reset: function(evt) {
+        this.builder.setter(this.field, null);
+        this.input.value = '';
+        this.builder.options.callback.call(this.options.callbackContext || this.obj);
     },
     toJS: function() {
         var reader = new FileReader();
@@ -193,9 +211,6 @@ L.FormBuilder.Image = L.FormBuilder.Input.extend({
             this.builder.options.callback.call(this.options.callbackContext || this.obj);
         };
         reader.readAsDataURL(this.input.files[0]);
-    },
-    fetch: function () {
-        // TODO
     }
 });
 
